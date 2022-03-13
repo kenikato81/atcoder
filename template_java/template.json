@@ -1,0 +1,6 @@
+{
+	"task": {
+		"program": ["MainTemplate.java"],
+		"submit": "main.java"
+	}
+}
