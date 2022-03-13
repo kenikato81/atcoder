@@ -15,26 +15,14 @@ public final class Main {
     int b = fs.nextInt();
     int c = fs.nextInt();
 
-    while (v > 0) {
-      if (a > v) {
-        System.out.println("F");
-        break;
-      }
-      v -= a;
-      if (b > v) {
-        System.out.println("M");
-        break;
-      }
-      v -= b;
-      if (c > v) {
-        System.out.println("T");
-        break;
-      }
-      v -= c;
-      if (v <= 0) {
-        System.out.println("F");
-        break;
-      }  
+    v = v % (a + b + c);
+
+    if (v < a) {
+      System.out.println("F");
+    } else if (v < a + b) {
+      System.out.println("M");
+    } else {
+      System.out.println("T");
     }
   }
 
@@ -83,8 +71,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -132,7 +119,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -192,8 +179,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -221,8 +207,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {
