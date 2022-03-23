@@ -12,6 +12,25 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    long k = fs.nextLong();
+    int[] arr = fs.nextIntArray(n);
+
+    Map<Long, Long> map = new HashMap<>();
+
+    long count = 0L;
+    long total = 0L;
+
+    map.put(0L, 1L);
+
+    for (int i = 0; i < n; i++) {
+      total += arr[i];
+      count += map.getOrDefault(total - k, 0L);
+      map.put(total, map.getOrDefault(total, 0L) + 1);
+
+    }
+
+    System.out.println(count);
+
   }
 
   static final class Utils {
@@ -59,8 +78,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -108,7 +126,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -168,8 +186,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -197,8 +214,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

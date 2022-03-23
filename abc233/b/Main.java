@@ -6,12 +6,18 @@ import java.lang.Math;
 
 public final class Main {
 
-  static final int MOD = 998244353;
-  static final StringBuilder sb = new StringBuilder();
-  static final FastReader fs = new FastReader();
+  private final int MOD = 998244353;
 
   public static void main(String[] args) throws IOException {
-    int n = fs.nextInt();
+    final FastReader fs = new FastReader();
+    int l = fs.nextInt();
+    int r = fs.nextInt();
+    String s = fs.next();
+
+
+
+    System.out.println(s.substring(0, l - 1) + new StringBuilder(s.substring(l - 1, r)).reverse()
+        + s.substring(r));
   }
 
   static final class Utils {
@@ -59,8 +65,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -108,7 +113,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -168,8 +173,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -197,8 +201,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

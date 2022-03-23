@@ -10,9 +10,45 @@ public final class Main {
   static final StringBuilder sb = new StringBuilder();
   static final FastReader fs = new FastReader();
 
+  static int count = 0;
+
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    long x = fs.nextLong();
+
+    int[][] arr = new int[n][];
+
+    for (int i = 0; i < n; i++) {
+      int count = fs.nextInt();
+      int[] newarr = new int[count];
+      for (int j = 0; j < newarr.length; j++) {
+        newarr[j] = fs.nextInt();
+      }
+      arr[i] = newarr;
+    }
+
+    dfs(n, 0, arr, x);
+
+    System.out.println(count);
+
   }
+
+  private static void dfs(int sumcount, int idx, int[][] base, long x) {
+    if (sumcount == idx) {
+      if (x == 1) {
+        count++;
+      }
+      return;
+    }
+
+    for (int i = 0; i < base[idx].length; i++) {
+      if (x % base[idx][i] == 0) {
+        dfs(sumcount, idx + 1, base, x / base[idx][i]);
+      }
+    }
+
+  }
+
 
   static final class Utils {
 
@@ -59,8 +95,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -108,7 +143,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -168,8 +203,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -197,8 +231,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {
