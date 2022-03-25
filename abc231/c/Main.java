@@ -1,3 +1,4 @@
+
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +13,24 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    int q = fs.nextInt();
+    List<Integer> l = new ArrayList<>();
+
+    for (int i = 0; i < n; i++) {
+      l.add(fs.nextInt());
+    }
+
+    Collections.sort(l);
+
+    for (int i = 0; i < q; i++) {
+      int target = fs.nextInt();
+      int low = myLowerBound(l, target);
+      // int high = myUpperBound(l, target);
+      sb.append(n - low + "\n");
+    }
+
+    System.out.print(sb);
+
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -20,80 +39,6 @@ public final class Main {
 
   static <T extends Comparable<T>> int myUpperBound(List<T> list, T target) {
     return ~Collections.binarySearch(list, target, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
-  }
-
-  static class UnionFind {
-    int[] parent;
-    int[] rank;
-
-    public UnionFind(int n) {
-      // 初期化コンストラクタ
-      this.parent = new int[n];
-      this.rank = new int[n];
-
-      // 最初はすべてが根
-      for (int i = 0; i < n; i++) {
-        parent[i] = i;
-        rank[i] = 0;
-      }
-    }
-
-    /**
-     * 要素の根を返す。 経路圧縮付き。（1→3→2となっていて2をfindした際、1→3,2と木の深さを浅くする。）
-     *
-     * @param x
-     * @return 要素xの根
-     */
-    public int find(int x) {
-      if (x == parent[x]) {
-        return x;
-      } else {
-        // 経路圧縮時はrank変更しない
-        parent[x] = find(parent[x]);
-        return parent[x];
-      }
-    }
-
-    /**
-     * ２つの要素が同じ集合に属するかどうかを返す。
-     *
-     * @param x
-     * @param y
-     * @return 同じ集合であればtrue
-     */
-    public boolean same(int x, int y) {
-      return find(x) == find(y);
-    }
-
-    /**
-     * 要素xが属する集合と要素yが属する集合を連結する。 木の高さ（ランク）を気にして、低い方に高い方をつなげる。（高い方の根を全体の根とする。）
-     *
-     * @param x
-     * @param y
-     */
-    public void unite(int x, int y) {
-      int xRoot = find(x);
-      int yRoot = find(y);
-
-      if (xRoot == yRoot) {
-        // 属する集合が同じな場合、何もしない
-        return;
-      }
-
-      // rankを比較して共通の根を決定する。
-      // ※find時の経路圧縮はrank考慮しない
-      if (rank[xRoot] > rank[yRoot]) {
-        // xRootのrankのほうが大きければ、共通の根をxRootにする
-        parent[yRoot] = xRoot;
-      } else if (rank[xRoot] < rank[yRoot]) {
-        // yRootのrankのほうが大きければ、共通の根をyRootにする
-        parent[xRoot] = yRoot;
-      } else {
-        // rankが同じであれば、どちらかを根として、rankを一つ上げる。
-        parent[xRoot] = yRoot;
-        rank[xRoot]++;
-      }
-    }
   }
 
   static final class Utils {
@@ -141,8 +86,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -190,7 +134,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -250,8 +194,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -279,8 +222,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

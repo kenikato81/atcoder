@@ -12,6 +12,35 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    int m = fs.nextInt();
+
+    UnionFind uf = new UnionFind(n + 1);
+    Map<Integer, Integer> map = new HashMap<>();
+
+    for (int i = 0; i < m; i++) {
+      int a = fs.nextInt();
+      int b = fs.nextInt();
+      map.put(a, map.getOrDefault(a, 0) + 1);
+      map.put(b, map.getOrDefault(b, 0) + 1);
+
+      boolean bef = uf.same(a, b);
+      uf.unite(a, b);
+      boolean aft = uf.same(a, b);
+      if (bef && aft) {
+        System.out.println("No");
+        return;
+      }
+    }
+
+    for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+      if (entry.getValue() >= 3) {
+        System.out.println("No");
+        return;
+      }
+    }
+
+    System.out.println("Yes");
+
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -141,8 +170,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -190,7 +218,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -250,8 +278,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -279,8 +306,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {
