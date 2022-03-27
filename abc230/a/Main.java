@@ -12,6 +12,11 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    if (n>=42) {
+      System.out.printf("AGC%03d\n", n+1);
+    } else{
+      System.out.printf("AGC%03d\n", n);
+    }
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -20,26 +25,6 @@ public final class Main {
 
   static <T extends Comparable<T>> int myUpperBound(List<T> list, T target) {
     return ~Collections.binarySearch(list, target, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
-  }
-
-  static class Pair implements Comparable<Pair> {
-    int l;
-    int r;
-
-    public Pair(int l, int r) {
-      this.l = l;
-      this.r = r;
-    }
-
-    public int compareTo(Pair o) {
-      // 並び順カスタマイズする場合変更
-      if (this.r == o.r)
-        return (this.l - o.l);
-      return (int) (this.r - o.r);
-      // if (this.l == o.l)
-      // return (this.r - o.r);
-      // return (int) (this.l - o.l);
-    }
   }
 
   static class UnionFind {

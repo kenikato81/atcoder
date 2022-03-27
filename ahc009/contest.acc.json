@@ -1,0 +1,19 @@
+{
+  "contest": {
+    "id": "ahc009",
+    "title": "Monoxer Programming Contest 2022（AtCoder Heuristic Contest 009）",
+    "url": "https://atcoder.jp/contests/ahc009"
+  },
+  "tasks": [
+    {
+      "id": "ahc009_a",
+      "label": "A",
+      "title": "Robust Memory of Commuting Routes",
+      "url": "https://atcoder.jp/contests/ahc009/tasks/ahc009_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
+    }
+  ]
+}

@@ -11,7 +11,30 @@ public final class Main {
   static final FastReader fs = new FastReader();
 
   public static void main(String[] args) throws IOException {
-    int n = fs.nextInt();
+    long n = fs.nextLong();
+    long a = fs.nextLong();
+    long b = fs.nextLong();
+
+    long p = fs.nextLong();
+    long q = fs.nextLong();
+    long r = fs.nextLong();
+    long s = fs.nextLong();
+
+    boolean[][] area = new boolean[(int) (q - p + 1)][(int) (s - r + 1)];
+
+    for (long i = p; i <= q; i++) {
+      for (long j = r; j <= s; j++) {
+        // Math.max(1 - a, 1 - b) to Math.min(n - a, n - b) >>> (A+k,B+k)
+        // Math.max(1 - a, b - n) to Math.min(n - a, b - 1) >>> (A+k,B−k)
+        if (Math.abs(i - a) == Math.abs(j - b))
+          sb.append("#");
+        else
+          sb.append(".");
+      }
+      sb.append("\n");
+    }
+
+    System.out.print(sb);
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -20,26 +43,6 @@ public final class Main {
 
   static <T extends Comparable<T>> int myUpperBound(List<T> list, T target) {
     return ~Collections.binarySearch(list, target, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
-  }
-
-  static class Pair implements Comparable<Pair> {
-    int l;
-    int r;
-
-    public Pair(int l, int r) {
-      this.l = l;
-      this.r = r;
-    }
-
-    public int compareTo(Pair o) {
-      // 並び順カスタマイズする場合変更
-      if (this.r == o.r)
-        return (this.l - o.l);
-      return (int) (this.r - o.r);
-      // if (this.l == o.l)
-      // return (this.r - o.r);
-      // return (int) (this.l - o.l);
-    }
   }
 
   static class UnionFind {
@@ -161,8 +164,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -210,7 +212,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -270,8 +272,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -299,8 +300,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

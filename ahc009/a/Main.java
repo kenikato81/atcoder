@@ -7,11 +7,168 @@ import java.lang.Math;
 public final class Main {
 
   static final int MOD = 998244353;
+  static final int INF = Integer.MAX_VALUE;
   static final StringBuilder sb = new StringBuilder();
   static final FastReader fs = new FastReader();
 
+  static Cell[][] map = new Cell[20][20];
+
   public static void main(String[] args) throws IOException {
-    int n = fs.nextInt();
+    int si = fs.nextInt();
+    int sj = fs.nextInt();
+    int ti = fs.nextInt();
+    int tj = fs.nextInt();
+    double p = fs.nextDouble();
+
+    // initialize
+    for (int i = 0; i < map.length; i++) {
+      for (int j = 0; j < map[0].length; j++) {
+        map[i][j] = new Cell();
+      }
+    }
+
+    // read wall
+    for (int i = 0; i < 20; i++) {
+      String wall = fs.next();
+      for (int j = 0; j < 19; j++) {
+        map[i][j].R = (wall.charAt(j) == '0');
+        map[i][j + 1].L = (wall.charAt(j) == '0');
+      }
+    }
+    for (int i = 0; i < 19; i++) {
+      String wall = fs.next();
+      for (int j = 0; j < 20; j++) {
+        map[i][j].D = (wall.charAt(j) == '0');
+        map[i + 1][j].U = (wall.charAt(j) == '0');
+      }
+    }
+    System.out.println("");
+
+    // goal setting
+    map[ti][tj].far = 0;
+
+    search(ti, tj);
+
+    // 短い距離から確定させていく
+    for (int target = 1; target < 400; target++) {
+      for (int i = 19; i >= 0; i--) {
+        for (int j = 19; j >= 0; j--) {
+          if (map[i][j].far == target) {
+            search(i, j);
+          }
+        }
+      }
+    }
+
+    String ans = searchRoute(si, sj, p).repeat(10).substring(0, 200);
+    System.out.println(ans);
+
+    // // display for debug
+    // for (int i = 0; i < 20; i++) {
+    // for (int j = 0; j < 20; j++) {
+    // System.out.printf("%02d ", map[i][j].far);
+    // }
+    // System.out.println("");
+    // }
+
+  }
+
+  static String searchRoute(int y, int x, double p) {
+    StringBuilder route = new StringBuilder();
+    // 0...to up
+    // 1...to right
+    // 2...to down
+    // 3...to left
+    int[] dx = {0, 1, 0, -1};
+    int[] dy = {-1, 0, 1, 0};
+    String[] ds = {"U", "R", "D", "L"};
+
+    int posy = y;
+    int posx = x;
+
+    int di = 0;
+    while (true) {
+      int loopCnt = 0;
+      while (true) {
+        loopCnt++;
+        int sx = posx + dx[di];
+        int sy = posy + dy[di];
+        if (sx < 0 || sx > 19 || sy < 0 || sy > 19) {
+          // なるべく向きを変えずに探索
+          route.append(ds[di].repeat((int) Math.round(loopCnt * p)));
+          di = (di + 1) % 4;
+          break;
+        }
+        // 壁判定
+        if ((di == 0 && !map[sy][sx].D || di == 1 && !map[sy][sx].L || di == 2 && !map[sy][sx].U
+            || di == 3 && !map[sy][sx].R)) {
+          // なるべく向きを変えずに探索
+          route.append(ds[di].repeat((int) Math.round(loopCnt * p)));
+          di = (di + 1) % 4;
+          break;
+        }
+        if (map[posy][posx].far - 1 == map[sy][sx].far) {
+          route.append(ds[di]);
+          posy = sy;
+          posx = sx;
+          if (map[posy][posx].far == 0) {
+            return route.toString();
+          }
+        } else {
+          // なるべく向きを変えずに探索
+          route.append(ds[di].repeat((int) Math.round(loopCnt * p)));
+          di = (di + 1) % 4;
+          break;
+        }
+      }
+    }
+  }
+
+  static void search(int y, int x) {
+    // 0...to up
+    // 1...to right
+    // 2...to down
+    // 3...to left
+    int[] dx = {0, 1, 0, -1};
+    int[] dy = {-1, 0, 1, 0};
+
+    for (int i = 0; i < 4; i++) {
+      int loopcnt = 0;
+      while (true) {
+        loopcnt++;
+        int sx = x + dx[i] * loopcnt;
+        int sy = y + dy[i] * loopcnt;
+        // マップ外判定
+        if (sx < 0 || sx > 19 || sy < 0 || sy > 19)
+          break;
+        // 壁判定
+        if ((i == 0 && !map[sy][sx].D || i == 1 && !map[sy][sx].L || i == 2 && !map[sy][sx].U
+            || i == 3 && !map[sy][sx].R)) {
+          break;
+        }
+        map[sy][sx].far = Math.min(map[sy - dy[i]][sx - dx[i]].far + 1, map[sy][sx].far);
+      }
+    }
+  }
+
+  static class Cell {
+    public boolean U = false;
+    public boolean D = false;
+    public boolean L = false;
+    public boolean R = false;
+    public int far = INF;
+    public boolean fix = false;
+
+    Cell() {
+
+    }
+
+    Cell(boolean u, boolean d, boolean l, boolean r) {
+      this.U = u;
+      this.D = d;
+      this.L = l;
+      this.R = r;
+    }
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -20,26 +177,6 @@ public final class Main {
 
   static <T extends Comparable<T>> int myUpperBound(List<T> list, T target) {
     return ~Collections.binarySearch(list, target, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
-  }
-
-  static class Pair implements Comparable<Pair> {
-    int l;
-    int r;
-
-    public Pair(int l, int r) {
-      this.l = l;
-      this.r = r;
-    }
-
-    public int compareTo(Pair o) {
-      // 並び順カスタマイズする場合変更
-      if (this.r == o.r)
-        return (this.l - o.l);
-      return (int) (this.r - o.r);
-      // if (this.l == o.l)
-      // return (this.r - o.r);
-      // return (int) (this.l - o.l);
-    }
   }
 
   static class UnionFind {
@@ -161,8 +298,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -210,7 +346,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -270,8 +406,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -299,8 +434,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

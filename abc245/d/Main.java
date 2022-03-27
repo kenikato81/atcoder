@@ -12,6 +12,18 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    int m = fs.nextInt();
+    int[] a = fs.nextIntArray(n + 1);
+    int[] b = new int[m + 1];
+    int[] c = fs.nextIntArray(n + m + 1);
+
+    b[b.length - 1] = c[c.length - 1] / a[a.length - 1];
+
+    for (int i = c.length - 1; i >= 0; i--) {
+      b[b.length - 1] = c[i] / a[a.length - 1];
+      
+    }
+
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -161,8 +173,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -210,7 +221,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -270,8 +281,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -299,8 +309,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

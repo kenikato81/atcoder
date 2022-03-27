@@ -12,6 +12,41 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    int m = fs.nextInt();
+
+    List<Pair> choco = new ArrayList<>();
+    List<Pair> box = new ArrayList<>();
+
+    int[] choco_x = fs.nextIntArray(n);
+    int[] choco_y = fs.nextIntArray(n);
+    int[] box_x = fs.nextIntArray(m);
+    int[] box_y = fs.nextIntArray(m);
+
+    boolean[] choco_used = new boolean[n];
+    boolean[] box_used = new boolean[m];
+
+    for (int i = 0; i < n; i++) {
+      choco.add(new Pair(choco_x[i], choco_y[i], i));
+    }
+
+    for (int i = 0; i < m; i++) {
+      box.add(new Pair(box_x[i], box_y[i], i));
+    }
+
+    Collections.sort(choco);
+    Collections.sort(box);
+
+    for (Pair cho : choco) {
+      int idx = myLowerBound(box, cho);
+      if (idx < 0) {
+        System.out.println("No");
+        break;
+      }
+      box.remove(idx);
+    }
+
+    System.out.println("Yes");
+
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -23,19 +58,19 @@ public final class Main {
   }
 
   static class Pair implements Comparable<Pair> {
-    int l;
-    int r;
+    int h;
+    int w;
+    int idx;
 
-    public Pair(int l, int r) {
-      this.l = l;
-      this.r = r;
+    public Pair(int l, int r, int idx) {
+      this.h = l;
+      this.w = r;
+      this.idx = idx;
     }
 
     public int compareTo(Pair o) {
       // 並び順カスタマイズする場合変更
-      if (this.r == o.r)
-        return (this.l - o.l);
-      return (int) (this.r - o.r);
+      return (this.w >= o.w && this.h >= o.w) ? 1 : -1;
       // if (this.l == o.l)
       // return (this.r - o.r);
       // return (int) (this.l - o.l);
@@ -161,8 +196,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -210,7 +244,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -270,8 +304,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -299,8 +332,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

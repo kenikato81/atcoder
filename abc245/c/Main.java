@@ -2,6 +2,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import javax.swing.plaf.metal.MetalIconFactory.FolderIcon16;
 import java.lang.Math;
 
 public final class Main {
@@ -12,6 +13,41 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    int k = fs.nextInt();
+    int[] a = fs.nextIntArray(n);
+    int[] b = fs.nextIntArray(n);
+
+    boolean[] pre_ok_a = new boolean[n];
+    boolean[] pre_ok_b = new boolean[n];
+
+    pre_ok_a[0] = true;
+    pre_ok_b[0] = true;
+
+    for (int i = 1; i < n; i++) {
+      boolean ok_a = false;
+      boolean ok_b = false;
+      if ((pre_ok_a[i - 1] && Math.abs(a[i] - a[i - 1]) <= k)
+          || (pre_ok_b[i - 1] && Math.abs(a[i] - b[i - 1]) <= k)) {
+        ok_a = true;
+        pre_ok_a[i] = true;
+      } else {
+        pre_ok_a[i] = false;
+      }
+      if ((pre_ok_a[i - 1] && Math.abs(b[i] - a[i - 1]) <= k)
+          || (pre_ok_b[i - 1] && Math.abs(b[i] - b[i - 1]) <= k)) {
+        ok_b = true;
+        pre_ok_b[i] = true;
+      } else {
+        pre_ok_b[i] = false;
+      }
+
+      if (!ok_a && !ok_b) {
+        System.out.println("No");
+        return;
+      }
+    }
+    System.out.println("Yes");
+
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -161,8 +197,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -210,7 +245,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -270,8 +305,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -299,8 +333,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

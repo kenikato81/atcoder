@@ -12,6 +12,27 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    int w = fs.nextInt();
+    List<Pair> pairs = new ArrayList<>();
+
+    for (int i = 0; i < n; i++) {
+      long a = fs.nextInt();
+      long b = fs.nextInt();
+      pairs.add(new Pair(a, b));
+    }
+
+    Collections.sort(pairs, Collections.reverseOrder());
+
+    long happy = 0;
+    for (Pair p : pairs) {
+      long count = 0;
+      count = Math.min(w, p.w);
+      happy += p.h * count;
+      w -= count;
+    }
+
+    System.out.println(happy);
+
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -23,19 +44,19 @@ public final class Main {
   }
 
   static class Pair implements Comparable<Pair> {
-    int l;
-    int r;
+    long h;
+    long w;
 
-    public Pair(int l, int r) {
-      this.l = l;
-      this.r = r;
+    public Pair(long l, long r) {
+      this.h = l;
+      this.w = r;
     }
 
     public int compareTo(Pair o) {
       // 並び順カスタマイズする場合変更
-      if (this.r == o.r)
-        return (this.l - o.l);
-      return (int) (this.r - o.r);
+      if (this.h == o.h)
+        return this.w - o.w > 0 ? 1 : -1;
+      return this.h - o.h > 0 ? 1 : -1;
       // if (this.l == o.l)
       // return (this.r - o.r);
       // return (int) (this.l - o.l);
@@ -161,8 +182,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -210,7 +230,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -270,8 +290,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -299,8 +318,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {
