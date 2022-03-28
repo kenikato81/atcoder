@@ -12,6 +12,22 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    Map<Integer, Integer> map = new HashMap<>();
+
+    for (int i = 0; i < n - 1; i++) {
+      int a = fs.nextInt();
+      int b = fs.nextInt();
+      map.put(a, map.getOrDefault(a, 0) + 1);
+      map.put(b, map.getOrDefault(b, 0) + 1);
+    }
+
+    int max = 0;
+    for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+      if (max < entry.getValue())
+        max = entry.getValue();
+    }
+
+    System.out.println(max == n - 1 ? "Yes" : "No");
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -20,16 +36,6 @@ public final class Main {
 
   static <T extends Comparable<T>> int myUpperBound(List<T> list, T target) {
     return ~Collections.binarySearch(list, target, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
-  }
-
-  static class ListNode {
-    int val;
-    ListNode next;
-    ListNode prev;
-
-    ListNode(int val) {
-        this.val = val;
-    }
   }
 
   static class Pair implements Comparable<Pair> {
@@ -171,8 +177,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -220,7 +225,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -280,8 +285,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -309,8 +313,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

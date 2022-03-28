@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.lang.Math;
+import java.math.MathContext;
 
 public final class Main {
 
@@ -10,8 +11,50 @@ public final class Main {
   static final StringBuilder sb = new StringBuilder();
   static final FastReader fs = new FastReader();
 
+  static List<Martial> martials = new ArrayList<>();
+  static boolean[] isLearnd;
+  static long total = 0;
+
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    isLearnd = new boolean[n];
+    for (int i = 0; i < n; i++) {
+      long t = fs.nextLong();
+      int k = fs.nextInt();
+      Martial m = new Martial(t, k);
+      m.nums = fs.nextIntArray(k);
+      martials.add(m);
+    }
+
+    search(n - 1);
+
+    System.out.println(total);
+
+  }
+
+  static void search(int idx) {
+    Martial now = martials.get(idx);
+    if (!isLearnd[idx]) {
+      total += now.time;
+      for (int i = 0; i < now.needCount; i++) {
+        search(now.nums[i] - 1);
+      }
+      isLearnd[idx] = true;
+    } else {
+      return;
+    }
+  }
+
+  static class Martial {
+    long time;
+    int needCount;
+    int[] nums;
+
+    Martial(long time, int needCount) {
+      this.time = time;
+      this.needCount = needCount;
+      this.nums = new int[needCount];
+    }
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -20,16 +63,6 @@ public final class Main {
 
   static <T extends Comparable<T>> int myUpperBound(List<T> list, T target) {
     return ~Collections.binarySearch(list, target, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
-  }
-
-  static class ListNode {
-    int val;
-    ListNode next;
-    ListNode prev;
-
-    ListNode(int val) {
-        this.val = val;
-    }
   }
 
   static class Pair implements Comparable<Pair> {
@@ -171,8 +204,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -220,7 +252,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -280,8 +312,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -309,8 +340,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

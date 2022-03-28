@@ -12,6 +12,29 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    List<Pair> points = new ArrayList<>();
+    Map<String, Integer> map = new HashMap<>();
+    for (int i = 0; i < n; i++) {
+      int x = fs.nextInt();
+      int y = fs.nextInt();
+      points.add(new Pair(x, y));
+    }
+    for (int i = 0; i < n - 1; i++) {
+      Pair from = points.get(i);
+      for (int j = i + 1; j < n; j++) {
+        Pair to = points.get(j);
+        int x = from.x - to.x;
+        int y = from.y - to.y;
+        if (x == 0) {
+          map.put("same_x", 1);
+        } else if (y == 0) {
+          map.put("same_y", 1);
+        } else {
+          map.put(String.valueOf((double) x / (double) y), 1);
+        }
+      }
+    }
+    System.out.println(map.size() * 2);
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -22,30 +45,20 @@ public final class Main {
     return ~Collections.binarySearch(list, target, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
   }
 
-  static class ListNode {
-    int val;
-    ListNode next;
-    ListNode prev;
-
-    ListNode(int val) {
-        this.val = val;
-    }
-  }
-
   static class Pair implements Comparable<Pair> {
-    int l;
-    int r;
+    int x;
+    int y;
 
     public Pair(int l, int r) {
-      this.l = l;
-      this.r = r;
+      this.x = l;
+      this.y = r;
     }
 
     public int compareTo(Pair o) {
       // 並び順カスタマイズする場合変更
-      if (this.r == o.r)
-        return (this.l - o.l);
-      return (int) (this.r - o.r);
+      if (this.y == o.y)
+        return (this.x - o.x);
+      return (int) (this.y - o.y);
       // if (this.l == o.l)
       // return (this.r - o.r);
       // return (int) (this.l - o.l);
@@ -128,6 +141,58 @@ public final class Main {
 
   static final class Utils {
 
+    private static class MyMath {
+      // 最大公約数・最小公倍数（セットで使う）
+      static int gcd(int a, int b) {
+        return b > 0 ? gcd(b, a % b) : a;
+      }
+
+      static int lcm(int a, int b) {
+        return a * b / gcd(a, b);
+      }
+
+      // 素数判定
+      static boolean isPrime(int n) {
+        if (n == 2)
+          return true;
+        if (n < 2 || n % 2 == 0)
+          return false;
+        double d = Math.sqrt(n);
+        for (int i = 3; i <= d; i += 2)
+          if (n % i == 0) {
+            return false;
+          }
+        return true;
+      }
+
+      // 倍数判定（10進数以外のときに有用）
+      static boolean isMultiple(String s, int base, int m) {
+        int temp = 0;
+        for (int i = 0; i < s.length(); i++) {
+          temp = (temp * base + Character.getNumericValue(s.charAt(i))) % m;
+        }
+        if (temp == 0) {
+          return true;
+        }
+        return false;
+      }
+
+
+      // 階乗
+      static long factorial(int i) {
+        if (i == 1) {
+          return 1;
+        } else {
+          return i * factorial(i - 1);
+        }
+      }
+
+      // 進数変換
+      static String toNbase(String sm, int m, int n) {
+        return Long.toString(Long.parseLong(sm, m), n);
+      }
+    }
+
     private static class Shuffler {
 
       private static void shuffle(int[] x) {
@@ -171,8 +236,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -220,7 +284,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -280,8 +344,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -309,8 +372,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {

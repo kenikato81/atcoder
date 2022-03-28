@@ -12,6 +12,31 @@ public final class Main {
 
   public static void main(String[] args) throws IOException {
     int n = fs.nextInt();
+    int m = fs.nextInt();
+    int pre = 0;
+    for (int i = 0; i < n; i++) {
+      int[] arr = fs.nextIntArray(m);
+      if (arr[0] % 7 + m >= 9) {
+        System.out.println("No");
+        return;
+      }
+      if (i != 0 && pre + 7 != arr[0]) {
+        System.out.println("No");
+        return;
+      }
+      for (int j = 0; j < m; j++) {
+        if (j != 0 && arr[j] != arr[j - 1] + 1) {
+          System.out.println("No");
+          return;
+        }
+        if (j != 0 && (arr[j] - 1) % 7 <= (arr[j - 1] - 1) % 7) {
+          System.out.println("No");
+          return;
+        }
+      }
+      pre = arr[0];
+    }
+    System.out.println("Yes");
   }
 
   static <T extends Comparable<T>> int myLowerBound(List<T> list, T target) {
@@ -20,16 +45,6 @@ public final class Main {
 
   static <T extends Comparable<T>> int myUpperBound(List<T> list, T target) {
     return ~Collections.binarySearch(list, target, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
-  }
-
-  static class ListNode {
-    int val;
-    ListNode next;
-    ListNode prev;
-
-    ListNode(int val) {
-        this.val = val;
-    }
   }
 
   static class Pair implements Comparable<Pair> {
@@ -171,8 +186,7 @@ public final class Main {
       Arrays.sort(arr);
     }
 
-    private Utils() {
-    }
+    private Utils() {}
   }
 
   static class FastReader {
@@ -220,7 +234,7 @@ public final class Main {
 
     private int skip() throws IOException {
       int b;
-      //noinspection StatementWithEmptyBody
+      // noinspection StatementWithEmptyBody
       while ((b = read()) != -1 && isSpaceChar(b)) {
       }
       return b;
@@ -280,8 +294,7 @@ public final class Main {
       }
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
       if (neg) {
         return -ret;
       }
@@ -309,8 +322,7 @@ public final class Main {
 
       do {
         ret = ret * 10 + c - '0';
-      }
-      while ((c = read()) >= '0' && c <= '9');
+      } while ((c = read()) >= '0' && c <= '9');
 
       if (c == '.') {
         while ((c = read()) >= '0' && c <= '9') {
