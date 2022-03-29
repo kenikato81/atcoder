@@ -1,0 +1,43 @@
+{
+  "contest": {
+    "id": "joi2007ho",
+    "title": "第６回日本情報オリンピック 本選（過去問）",
+    "url": "https://atcoder.jp/contests/joi2007ho"
+  },
+  "tasks": [
+    {
+      "id": "joi2007ho_a",
+      "label": "A",
+      "title": "最大の和",
+      "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joi2007ho_b",
+      "label": "B",
+      "title": "最長の階段",
+      "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_b"
+    },
+    {
+      "id": "joi2007ho_c",
+      "label": "C",
+      "title": "最古の遺跡",
+      "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_c"
+    },
+    {
+      "id": "joi2007ho_d",
+      "label": "D",
+      "title": "最悪の記者",
+      "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_d"
+    },
+    {
+      "id": "joi2007ho_e",
+      "label": "E",
+      "title": "最軽量のモビール",
+      "url": "https://atcoder.jp/contests/joi2007ho/tasks/joi2007ho_e"
+    }
+  ]
+}
