@@ -39,7 +39,11 @@
       "id": "abc222_d",
       "label": "D",
       "title": "Between Two Arrays",
-      "url": "https://atcoder.jp/contests/abc222/tasks/abc222_d"
+      "url": "https://atcoder.jp/contests/abc222/tasks/abc222_d",
+      "directory": {
+        "path": "d",
+        "testdir": "tests"
+      }
     },
     {
       "id": "abc222_e",
