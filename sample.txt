@@ -1,0 +1,3 @@
+alias jtest='javac Main.java && oj t -c "java Main" -d ./tests/'
+alias jsub='acc submit Main.java -- -l 4005'
+alias jcp='cp ../../template_java/MainTemplate.java Main.java'
